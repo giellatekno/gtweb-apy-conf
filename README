@@ -1,0 +1,45 @@
+== Oppsummert ==
+
+For å installera nye språkpar, bruk 
+
+  sudo dnf install apertium-frå-til
+  sudo /home/apy/update
+
+For å oppdatera apy eller html-tools, bruk:
+
+  sudo /home/apy/update
+
+
+== Detaljar ==
+
+Omsetjingstenaren apertium-apy køyrer som brukaren «apy», og koden til både den
+og html-sidene er under /home/apy. I /home/apy finst to skript,
+update-apy-server og update-html-pages, som det går an å køyra for å oppdatera
+kjeldekoden til dei. Etter oppdatering av omsetjngstenaren, må han omstartast.
+
+Du kan køyra eit skript som gjer alt dette, og då gir full oppdatering av koden:
+
+  sudo /home/apy/update
+
+
+=== Konfigurasjon av gtweb-tenaren ===
+
+Alle konfigurasjonsfiler som er endra for sjølve maskina ligg òg i
+/home/apy/etc, dei er versjonshandtert med git og utanom /home/apy har dei same
+sti som dei «installerte» konfigurasjonsfilene. Så om gtweb skulle krasja, bør
+det gå an å få same konfigurasjon tilbake ved å kopiera alle filer frå
+/home/apy/etc til same sti under /etc
+
+Språkpara er dei som er installert med «dnf install» (ExecStart i
+/etc/systemd/system/apy.service gir stien til modes-filene). 
+
+HTTP-tenaren måtte ha eit par endringar, eg la til to konfigurasjonsfilar i
+/etc/httpd/conf.d/ (som du altså finn i /home/apy/etc/httpd/conf.d/).
+
+Fila /etc/systemd/system/apy.service gjer at omsetjingstenaren startar på
+oppstart av gtweb-maskina.
+
+For å installera alle konfigurasjonsfilene på nytt:
+
+    cd /home/apy/
+    sudo find etc/ -type f -exec install -Dm644 {} /{} \;

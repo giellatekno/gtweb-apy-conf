@@ -1,0 +1,38 @@
+#!/bin/bash
+
+set -e -u
+
+if [[ "$(whoami)" != apy ]]; then
+    echo "ERROR: Run this script as user 'apy', e.g. with 'sudo -u apy /home/apy/update-html-pages'"
+    exit 1
+fi
+
+if ! status=$(systemctl status -n0 apy); then
+    echo "ERROR: It seems APY isn't running:"
+    echo "${status}"
+    echo
+    echo "We need APY for compiling apertium-html-tools." 
+    echo "Please ask someone with sudo to do 'systemctl start apy'."
+    exit 1
+fi
+
+if ! curl localhost:2737; then
+    echo
+    echo "WARNING: APY isn't answering; waiting a bit in case it was just started ..."
+    echo
+    sleep 10
+fi
+
+set -x
+cd ~/apertium-html-tools
+git pull
+export CONFIG
+for CONFIG in jorgal.conf tolkimine.conf; do
+    make clean
+    make -s -j yeti || make yeti
+    rsync -a --delete-after build/ "${CONFIG%%.conf}"/
+done
+set +x
+
+echo
+echo 'Up-to-date! Now try http://gtweb.uit.no/jorgal and translate something'

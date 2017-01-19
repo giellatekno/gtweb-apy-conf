@@ -1,0 +1,12 @@
+#!/bin/sh
+
+if [ "$(whoami)" != root ]; then
+    echo "Run this script with sudo" >&2
+    exit 1
+fi
+
+sudo -u apy /home/apy/update-apy-server
+systemctl restart apy
+sleep 1
+sudo -u apy /home/apy/update-html-pages
+systemctl status apy

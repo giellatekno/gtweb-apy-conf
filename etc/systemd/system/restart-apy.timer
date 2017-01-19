@@ -1,0 +1,9 @@
+[Unit]
+Description=Restart apy server twice a day
+
+[Timer]
+OnCalendar=03,14:22
+
+[Install]
+WantedBy=timers.target
+

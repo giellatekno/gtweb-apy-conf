@@ -1,0 +1,8 @@
+[Unit]
+Description=Restart APY server
+
+[Service]
+Type=simple
+Restart=no
+ExecStart=/usr/bin/systemctl restart apy.service
+

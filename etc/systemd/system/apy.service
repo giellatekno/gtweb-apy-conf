@@ -1,0 +1,22 @@
+[Unit]
+Description=Translation server and API for Apertium
+Documentation=http://wiki.apertium.org/wiki/Apertium-apy
+After=network.target
+
+[Service]
+# Change this to your username and edit to how you start apy:
+User=apy
+WorkingDirectory=/home/apy/apertium-apy
+ExecStart=/usr/bin/python3 servlet.py /usr/share/apertium/modes --max-idle-secs 3600 --restart-pipe-after 100 --userdb /home/apy/apertium-apy/users --missing-freqs /home/apy/apertium-apy/missing.db 
+
+# By default, if it restarts >10 times within 5 secs, it marks it as failed and gives up:
+Restart=always
+
+# Restart the service if it doesn't do a watchdog ping within 10 seconds:
+WatchdogSec=10s
+
+# No reason to have access to shared tmp files:
+PrivateTmp=yes
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,21 @@
+#!/bin/bash
+
+set -e -u
+
+if [[ "$(whoami)" != apy ]]; then
+    echo "ERROR: Run this script as user 'apy', e.g. with 'sudo -u apy /home/apy/update-apy-server'"
+    exit 1
+fi
+
+set -x
+cd ~/apertium-apy
+git pull
+# making langNames.db -- hopefully gtweb's disk won't die this time
+make
+set +x
+
+echo
+echo
+echo 'Up-to-date! Now ask someone with sudo-access to run "sudo systemctl restart apy"'
+echo
+echo 'You may want to also run ./update-html-pages (after apy is restarted)'

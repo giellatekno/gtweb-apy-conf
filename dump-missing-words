@@ -1,0 +1,11 @@
+#!/bin/bash
+
+#sqlite3 -header -csv /home/apy/apertium-apy/missing.db 'select * from missingFreqs;' 
+
+# We have newlines and all kinda weirdness in there; this at least quotes things correctly:
+
+sqlite3 -header /home/apy/apertium-apy/missing.db <<EOF
+.mode insert
+select * from missingFreqs;
+EOF
+
