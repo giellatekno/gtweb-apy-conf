@@ -1,0 +1,8 @@
+[submodule "apertium-html-tools"]
+	path = apertium-html-tools
+	url = https://github.com/goavki/apertium-html-tools/
+	branch = giellatekno
+[submodule "apertium-apy"]
+	path = apertium-apy
+	url = https://github.com/goavki/apertium-apy/
+	branch = giellatekno

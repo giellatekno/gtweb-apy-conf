@@ -1,0 +1,85 @@
+* Installera nye språkpar
+
+For å installera nye språkpar, bruk
+
+: sudo dnf install apertium-frå-til
+: sudo /home/apy/update
+
+* Oppdatera apy/html-tools
+
+For å oppdatera konfigurasjonen (som kan gi oppdatering av apy eller
+html-tools), bruk:
+
+: sudo /home/apy/update
+
+Merk at ei apy og html-tools er «git submodules» av dette repoet, dei
+blir oppdatert når nokon sjekkar inn i dette reposet at dei skal
+oppdaterast.
+
+
+* Detaljar
+
+Omsetjingstenaren apertium-apy køyrer som brukaren «apy», og koden til
+både den og html-sidene er under /home/apy. I /home/apy finst to
+skript, =build-apy-server= og =build-html-pages,= som det går an å
+køyra for å kompilera dei. Du kan oppdatera konfigurasjonen og
+kjeldekoden ved å køyra =git pull && git submodule update
+--recursive=. Etter oppdatering av omsetjngstenaren, må han omstartast
+med =sudo systemctl restart apy=.
+
+Dette er litt mange stek, så du kan køyra eit skript som gjer alt
+dette, og då gir full oppdatering og bygging av koden og omstart av
+MT-tenaren:
+
+: sudo /home/apy/update
+
+
+** Konfigurasjon av gtweb-tenaren
+
+Alle konfigurasjonsfiler som er endra for sjølve maskina ligg òg i
+/home/apy/etc, dei er versjonshandtert med git og utanom /home/apy har dei same
+sti som dei «installerte» konfigurasjonsfilene. Så om gtweb skulle krasja, bør
+det gå an å få same konfigurasjon tilbake ved å kopiera alle filer frå
+/home/apy/etc til same sti under /etc
+
+Språkpara er dei som er installert med «dnf install» (ExecStart i
+/etc/systemd/system/apy.service gir stien til modes-filene).
+
+HTTP-tenaren måtte ha eit par endringar, eg la til to konfigurasjonsfilar i
+/etc/httpd/conf.d/ (som du altså finn i /home/apy/etc/httpd/conf.d/).
+
+Fila /etc/systemd/system/apy.service gjer at omsetjingstenaren startar på
+oppstart av gtweb-maskina.
+
+** Oppdatering av submodules (apy, html-tools)
+
+: git submodule foreach git pull
+: git commit -m "updated apy/html-tools"
+: git push
+
+* I tilfelle alt må installerast på nytt:
+
+Lag ein brukar med namn og gruppenamn =apy= og heimemappe =/home/apy=,
+ingen gruppemedlemskap/rettar utanom =apy=.
+
+Logg inn som =apy= og skriv
+
+: cd /home/apy
+: git init
+: git remote add origin https://github.com/unhammer/gtweb-apy-conf
+: git branch --set-upstream-to=origin/master master
+: git pull
+: git submodule init
+: git submodule update --recursive
+
+Logg så inn som ein brukar med sudo-rettar, og installer alle
+konfigurasjonsfilene på nytt:
+
+: cd /home/apy/
+: sudo find etc/ -type f -exec install -Dm644 {} /{} \;
+
+La apy-tenesta og omstart-apy-tenesta køyra ved oppstart av maskina og
+start dei no:
+: sudo systemctl enable apy.service restart-apy.timer
+: sudo systemctl start apy.service restart-apy.timer
+: sudo /home/apy/update

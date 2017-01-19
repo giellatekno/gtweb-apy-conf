@@ -1,12 +1,23 @@
-#!/bin/sh
+#!/bin/bash
 
-if [ "$(whoami)" != root ]; then
+set -e -u
+
+if [[ "$(whoami)" != root ]]; then
     echo "Run this script with sudo" >&2
     exit 1
 fi
 
-sudo -u apy /home/apy/update-apy-server
-systemctl restart apy
-sleep 1
-sudo -u apy /home/apy/update-html-pages
-systemctl status apy
+# In case the "git pull" updates this script itself, we put it all in
+# a function, since bash reads the file as it's executing it:
+# http://stackoverflow.com/a/18036284/69663
+main () {
+    git pull
+    git submodule update --recursive
+    sudo -u apy /home/apy/build-apy-server
+    systemctl restart apy
+    sleep 1
+    sudo -u apy /home/apy/build-html-pages
+    systemctl status apy
+}
+
+main
