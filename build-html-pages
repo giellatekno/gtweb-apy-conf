@@ -25,11 +25,11 @@ fi
 
 set -x
 cd ~/apertium-html-tools
-export CONFIG
-for CONFIG in jorgal.conf tolkimine.conf; do
+for goal in jorgal tolkimine; do
+    export CONFIG=../html-tools-confs/"${goal}".conf
     make clean
     make -s -j yeti || make yeti
-    rsync -a --delete-after build/ "${CONFIG%%.conf}"/
+    rsync -a --delete-after build/ "${goal}"/
 done
 set +x
 
