@@ -25,7 +25,7 @@ fi
 
 set -x
 cd ~/apertium-html-tools
-for goal in jorgal tolkimine; do
+for goal in jorgal tolkimine mt-testing; do
     export CONFIG=../html-tools-confs/"${goal}".conf
     make clean
     make -s -j yeti || make yeti
