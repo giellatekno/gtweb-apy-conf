@@ -53,7 +53,9 @@ oppstart av gtweb-maskina.
 
 ** Oppdatering av submodules (apy, html-tools)
 
-: git submodule foreach git pull
+: git submodule init                  # berre ved første utsjekk av dette repoet
+: git submodule update --recursive    # berre ved første utsjekk av dette repoet
+: git submodule foreach git pull origin giellatekno
 : git commit -m "updated apy/html-tools"
 : git push
 
