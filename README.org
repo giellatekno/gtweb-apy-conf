@@ -1,87 +1,121 @@
-* Installera nye språkpar
+* Introduction
 
-For å installera nye språkpar, bruk
+This repository contains the configuration for the MT interfaces at
+- http://gtweb.uit.no/jorgal/
+- http://gtweb.uit.no/tolkimine/
+- http://gtweb.uit.no/mt-testing/
 
-: sudo dnf install apertium-frå-til
+The translation daemon/server is running under the user "apy" on the
+server gtweb (gtweb.uit.no), and the html pages also reside under the
+home directory of that user (hosted by the regular Apache server). The
+whole configuration is in this git repo, hosted at
+https://github.com/unhammer/gtweb-apy-conf#readme
+
+The directory =/home/apy= is a git repo, with
+https://github.com/unhammer/gtweb-apy-conf as the upstream.
+
+Any change to the configuration is first checked in to git and pushed
+to github, then the configuration is updated at gtweb by running the
+=update= script, which also might update submodules and build them.
+
+There are two submodules:
+- the translation daemon/server [[https://github.com/goavki/apertium-apy/tree/giellatekno/][apertium-apy]], branch giellatekno
+- the static html pages [[https://github.com/goavki/apertium-html-tools/tree/giellatekno/][apertium-html-tools]], branch giellatekno
+
+The following sections define how to do common or uncommon tasks like
+installing everything from scratch, installing new language pairs,
+or updating the code for the subrepos.
+
+
+* Installing new language pairs
+
+** Optionally enable it in jorgal/tolkimine
+
+The page [[http://gtweb.uit.no/mt-testing/][mt-testing]] runs all language pairs, but [[http://gtweb.uit.no/jorgal/][jorgal]] and [[http://gtweb.uit.no/tolkimine/][tolkimine]]
+only run certain pairs. See the files [[file:html-tools-confs/jorgal.conf::ALLOWED_PAIRS%20%3D%20sme-nob,%20sme-fin][jorgal.conf]] / [[file:html-tools-confs/jorgal.conf::ALLOWED_PAIRS%20%3D%20sme-nob,%20sme-fin][tolkimine.conf]] in
+the directory =html-tools-confs= – you'll need to edit the line
+=ALLOWED_PAIRS= if you want your new pair to appear on one of those
+pages. Then check in your change and push to
+https://github.com/unhammer/gtweb-apy-conf#readme (it's also possible
+to just check in that change on =/home/apy= if you really have to).
+
+** Install the pair and re-build pages
+
+To install the new language pair on gtweb, log in as a user with
+sudo-rights and do:
+
+: sudo dnf install apertium-from-to
 : sudo /home/apy/update
 
-* Oppdatera apy/html-tools
-
-For å oppdatera konfigurasjonen (som kan gi oppdatering av apy eller
-html-tools), bruk:
-
-: sudo /home/apy/update
-
-Merk at ei apy og html-tools er «git submodules» av dette repoet, dei
-blir oppdatert når nokon sjekkar inn i dette reposet at dei skal
-oppdaterast.
 
 
-* Detaljar
+* Updating submodules apertium-apy / apertium-html-tools
 
-Omsetjingstenaren apertium-apy køyrer som brukaren «apy», og koden til
-både den og html-sidene er under /home/apy. I /home/apy finst to
-skript, =build-apy-server= og =build-html-pages,= som det går an å
-køyra for å kompilera dei. Du kan oppdatera konfigurasjonen og
-kjeldekoden ved å køyra =git pull && git submodule update
---recursive=. Etter oppdatering av omsetjngstenaren, må han omstartast
-med =sudo systemctl restart apy=.
+A push to apertium-apy or apertium-html-tools isn't automatically
+pulled into the gtweb just by running =/home/apy/update=; you need to
+also check into this repo that you want to use that.
 
-Dette er litt mange stek, så du kan køyra eit skript som gjer alt
-dette, og då gir full oppdatering og bygging av koden og omstart av
-MT-tenaren:
+This repo specifies which commit of each submodule we want to use. If
+you want to use the newest commit of the =giellatekno= branch of
+apertium-html-tools and apertium-apy, you can enter this repo and do
 
-: sudo /home/apy/update
-
-
-** Konfigurasjon av gtweb-tenaren
-
-Alle konfigurasjonsfiler som er endra for sjølve maskina ligg òg i
-/home/apy/etc, dei er versjonshandtert med git og utanom /home/apy har dei same
-sti som dei «installerte» konfigurasjonsfilene. Så om gtweb skulle krasja, bør
-det gå an å få same konfigurasjon tilbake ved å kopiera alle filer frå
-/home/apy/etc til same sti under /etc
-
-Språkpara er dei som er installert med «dnf install» (ExecStart i
-/etc/systemd/system/apy.service gir stien til modes-filene).
-
-HTTP-tenaren måtte ha eit par endringar, eg la til to konfigurasjonsfilar i
-/etc/httpd/conf.d/ (som du altså finn i /home/apy/etc/httpd/conf.d/).
-
-Fila /etc/systemd/system/apy.service gjer at omsetjingstenaren startar på
-oppstart av gtweb-maskina.
-
-** Oppdatering av submodules (apy, html-tools)
-
-: git submodule init                  # berre ved første utsjekk av dette repoet
-: git submodule update --recursive    # berre ved første utsjekk av dette repoet
 : git submodule foreach git pull origin giellatekno
 : git commit -m "updated apy/html-tools"
 : git push
 
-* I tilfelle alt må installerast på nytt:
+(if you don't have push-rights to
+https://github.com/unhammer/gtweb-apy-conf, you could just run the
+first two lines under =gtweb:/home/apy=).
 
-Lag ein brukar med namn og gruppenamn =apy= og heimemappe =/home/apy=,
-ingen gruppemedlemskap/rettar utanom =apy=.
+Then, as a sudo-user on gtweb, do:
 
-Logg inn som =apy= og skriv
+: sudo /home/apy/update
+
+
+
+* In case everything needs reinstalling
+
+In case e.g. gtweb dies and you need to reinstall everything:
+
+- add a new user =apy= (group =apy=) with home dir =/home/apy=
+- log in as this user =apy=, and run
 
 : cd /home/apy
 : git init
-: git remote add origin https://github.com/unhammer/gtweb-apy-conf
+: git remote add origin https://github.com/unhammer/gtweb-apy-conf.git
 : git branch --set-upstream-to=origin/master master
 : git pull
 : git submodule init
 : git submodule update --recursive
 
-Logg så inn som ein brukar med sudo-rettar, og installer alle
-konfigurasjonsfilene på nytt:
-
+Then log in as a user with sudo-rights, and install configuration files:
 : cd /home/apy/
 : sudo find etc/ -type f -exec install -Dm644 {} /{} \;
 
-La apy-tenesta og omstart-apy-tenesta køyra ved oppstart av maskina og
-start dei no:
+and ensure the apertium-apy service and apertium-apy-restarter service
+are running now and on restarts of gtweb:
 : sudo systemctl enable apy.service restart-apy.timer
 : sudo systemctl start apy.service restart-apy.timer
+
+Then update and build apertium-apy and the apertium-html-tools pages:
 : sudo /home/apy/update
+
+
+** Details
+
+All the relevant configuration files for the gtweb machine are under
+the =etc= folder of this repo, so we know what configs are relevant in
+case we need to reinstall everything.
+
+Language pairs are those that are installed with =dnf install=
+(=ExecStart= in =etc/systemd/system/apy.service= gives the path to the
+modes files), but individual html configurations can specify a subset
+of pairs to run (see [[*Installing%20new%20language%20pairs][Installing new language pairs]]).
+
+We expect a standard Apache httpd running; see configs in
+=etc/httpd/conf.d/=.
+
+The file =etc/systemd/system/apy.service= says how to run the
+apertium-apy MT daemon, which is started on restart of the gtweb
+machine.
+
