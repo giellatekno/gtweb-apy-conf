@@ -48,7 +48,6 @@ sudo-rights and do:
 : sudo /home/apy/update
 
 
-
 * Updating submodules apertium-apy / apertium-html-tools
 
 A push to apertium-apy or apertium-html-tools isn't automatically
@@ -77,6 +76,11 @@ Then, as a sudo-user on gtweb, do:
 
 In case e.g. gtweb dies and you need to reinstall everything:
 
+Install language pairs from Tino's repo:
+
+: curl -Ss https://apertium.projectjj.com/rpm/install-nightly.sh | sudo bash
+: sudo dnf install apertium-sme-nob # etc.
+
 - add a new user =apy= (group =apy=) with home dir =/home/apy=
 - log in as this user =apy=, and run
 
@@ -92,10 +96,12 @@ Then log in as a user with sudo-rights, and install configuration files:
 : cd /home/apy/
 : sudo find etc/ -type f -exec install -Dm644 {} /{} \;
 
-and ensure the apertium-apy service and apertium-apy-restarter service
-are running now and on restarts of gtweb:
-: sudo systemctl enable apy.service restart-apy.timer
-: sudo systemctl start apy.service restart-apy.timer
+and ensure the dnf updater, apertium-apy service and
+apertium-apy-restarter service are running now and on restarts of
+gtweb:
+: sudo systemctl daemon-reload
+: sudo systemctl enable apy.service restart-apy.timer dnf-automatic.timer
+: sudo systemctl start apy.service restart-apy.timer dnf-automatic.timer
 
 Then update and build apertium-apy and the apertium-html-tools pages:
 : sudo /home/apy/update
