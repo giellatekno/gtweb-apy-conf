@@ -9,7 +9,7 @@ The translation daemon/server is running under the user "apy" on the
 server gtweb (gtweb.uit.no), and the html pages also reside under the
 home directory of that user (hosted by the regular Apache server). The
 whole configuration is in this git repo, hosted at
-https://github.com/unhammer/gtweb-apy-conf#readme
+[[https://github.com/unhammer/gtweb-apy-conf#readme][https://github.com/unhammer/gtweb-apy-conf]]
 
 The directory =/home/apy= is a git repo, with
 https://github.com/unhammer/gtweb-apy-conf as the upstream.
@@ -36,8 +36,13 @@ only run certain pairs. See the files [[file:html-tools-confs/jorgal.conf::ALLOW
 the directory =html-tools-confs= – you'll need to edit the line
 =ALLOWED_PAIRS= if you want your new pair to appear on one of those
 pages. Then check in your change and push to
-https://github.com/unhammer/gtweb-apy-conf#readme (it's also possible
-to just check in that change on =/home/apy= if you really have to).
+[[https://github.com/unhammer/gtweb-apy-conf]] (it's also possible to just
+check in that change on =/home/apy= without pushing, if you really
+have to), e.g.
+
+: edit html-tools-confs/jorgal.conf
+: git commit -am "added sme-eus"
+: git push # unless you're editing in /home/apy because you can't push
 
 ** Install the pair and re-build pages
 
@@ -116,7 +121,7 @@ case we need to reinstall everything.
 Language pairs are those that are installed with =dnf install=
 (=ExecStart= in =etc/systemd/system/apy.service= gives the path to the
 modes files), but individual html configurations can specify a subset
-of pairs to run (see [[*Installing%20new%20language%20pairs][Installing new language pairs]]).
+of pairs to run (see [[https://github.com/unhammer/gtweb-apy-conf#installing-new-language-pairs][Installing new language pairs]]).
 
 We expect a standard Apache httpd running; see configs in
 =etc/httpd/conf.d/=.
