@@ -8,4 +8,5 @@ git commit -am "updated submodules"
 
 git push || echo 'Failed pushing!'
 
+echo
 echo "From gtweb, do 'sudo /home/apy/update' to update the configuration and re-build"
