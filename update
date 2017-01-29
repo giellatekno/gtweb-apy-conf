@@ -12,8 +12,8 @@ fi
 # http://stackoverflow.com/a/18036284/69663
 main () {
     cd "$(dirname "$0")"
-    git pull
-    git submodule update --recursive
+    sudo -u apy git pull
+    sudo -u apy git submodule update --recursive
     sudo -u apy /home/apy/build-apy-server
     systemctl restart apy
     sleep 1
