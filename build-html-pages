@@ -28,9 +28,12 @@ cd ~/apertium-html-tools
 for goal in jorgal tolkimine mt-testing; do
     export CONFIG=../html-tools-confs/"${goal}".conf
     make clean
+    # html-tools config doesn't yet let you restrict locales, TODO
+    cat ../html-tools-confs/locales-"${goal}".json > assets/strings/locales.json
     make -s -j yeti || make yeti
     rsync -a --delete-after build/ "${goal}"/
 done
+git checkout -- .
 set +x
 
 echo
