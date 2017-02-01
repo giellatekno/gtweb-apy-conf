@@ -13,7 +13,7 @@ ExecStart=/usr/bin/python3 servlet.py /usr/share/apertium/modes --max-idle-secs 
 Restart=always
 
 # Restart the service if it doesn't do a watchdog ping within 10 seconds:
-WatchdogSec=10s
+WatchdogSec=30s
 
 # No reason to have access to shared tmp files:
 PrivateTmp=yes
