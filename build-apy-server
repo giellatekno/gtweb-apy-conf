@@ -15,6 +15,7 @@ set +x
 
 echo
 echo
-echo 'Up-to-date! Now ask someone with sudo-access to run "sudo systemctl restart apy"'
+echo 'apertium-apy is up-to-date! Do "sudo systemctl restart apy" to restart it immediately'
 echo
 echo 'You may want to also run ./build-html-pages (after apy is restarted)'
+echo
