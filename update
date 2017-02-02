@@ -7,18 +7,25 @@ if [[ "$(whoami)" != root ]]; then
     exit 1
 fi
 
+D="$(dirname "$0")"
+declare -r D
+
 # In case the "git pull" updates this script itself, we put it all in
 # a function, since bash reads the file as it's executing it:
 # http://stackoverflow.com/a/18036284/69663
 main () {
-    cd "$(dirname "$0")"
+    cd "$D"
     sudo -u apy git pull
     sudo -u apy git submodule update --recursive
-    sudo -u apy /home/apy/build-apy-server
+    sudo -u apy ./build-apy-server
     systemctl restart apy
     sleep 1
-    sudo -u apy /home/apy/build-html-pages
-    systemctl status apy
+    sudo -u apy ./build-html-pages
+    if ! find etc/ -type f -print0 | xargs -r0I{} diff -q '{}' '/{}'; then
+        echo "Configuration files changed – you should run $D/install-and-enable-services"
+    else
+        systemctl status apy
+    fi
 }
 
 main

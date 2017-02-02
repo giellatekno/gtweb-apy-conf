@@ -1,0 +1,21 @@
+#!/bin/bash
+
+set -e -u
+
+if [[ "$(whoami)" != root ]]; then
+    echo "Run this script with sudo" >&2
+    exit 1
+fi
+
+D="$(dirname "$0")"
+declare -r D
+
+cd "$D"
+
+find etc/ -type f -exec install -Dm644 {} /{} \;
+
+systemctl daemon-reload
+
+systemctl enable apy.service restart-apy.timer dnf-automatic.timer
+
+systemctl start apy.service restart-apy.timer dnf-automatic.timer

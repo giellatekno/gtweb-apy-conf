@@ -98,15 +98,11 @@ Install language pairs from Tino's repo:
 : git submodule update --recursive
 
 Then log in as a user with sudo-rights, and install configuration files:
-: cd /home/apy/
-: sudo find etc/ -type f -exec install -Dm644 {} /{} \;
+: sudo /home/apy/install-and-enable-services
 
-and ensure the dnf updater, apertium-apy service and
-apertium-apy-restarter service are running now and on restarts of
-gtweb:
-: sudo systemctl daemon-reload
-: sudo systemctl enable apy.service restart-apy.timer dnf-automatic.timer
-: sudo systemctl start apy.service restart-apy.timer dnf-automatic.timer
+That script will also ensure that the dnf updater, apertium-apy
+service and apertium-apy-restarter service are running now and on
+restarts of gtweb.
 
 Then update and build apertium-apy and the apertium-html-tools pages:
 : sudo /home/apy/update
