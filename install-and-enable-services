@@ -22,6 +22,7 @@ systemctl start apy.service restart-apy.timer dnf-automatic.timer
 
 restorecon /etc/firewalld/services/apy.xml
 firewall-cmd --permanent --add-service=apy
+firewall-cmd --permanent --add-service=https
 firewall-cmd --reload
 
 # TODO: Will this require more options the first time around?
