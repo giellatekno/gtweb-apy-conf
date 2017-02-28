@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<service>
+  <short>APY Apertium MT Server</short>
+  <description>APY is an API server for the Apertium Machine Translation Platform. This instance is used by Giellatekno/Divvun's MT and grammar checkers, see https://github.com/unhammer/gtweb-apy-conf</description>
+  <port protocol="tcp" port="2737"/>
+</service>
