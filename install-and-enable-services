@@ -19,3 +19,7 @@ systemctl daemon-reload
 systemctl enable apy.service restart-apy.timer dnf-automatic.timer
 
 systemctl start apy.service restart-apy.timer dnf-automatic.timer
+
+restorecon /etc/firewalld/services/apy.xml
+firewall-cmd --permanent --add-service=apy
+firewall-cmd --reload
