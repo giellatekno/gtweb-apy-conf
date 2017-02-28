@@ -1,0 +1,7 @@
+[Unit]
+Description=Renew letsencrypt cert if it needs renewing
+
+[Service]
+Type=simple
+Restart=no
+ExecStart=/usr/bin/certbot renew --quiet

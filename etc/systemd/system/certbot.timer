@@ -1,0 +1,9 @@
+[Unit]
+Description=Check if letsencrypt cert needs renewal
+
+[Timer]
+OnCalendar=04,21:21
+
+[Install]
+WantedBy=timers.target
+
