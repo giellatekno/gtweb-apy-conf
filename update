@@ -15,7 +15,7 @@ declare -r D
 # http://stackoverflow.com/a/18036284/69663
 main () {
     cd "$D"
-    if find . -not -uid "$(id -u apy)"; then echo "Found files not owned by apy here, please chown apy:apy" >&2; exit 1; fi
+    if find . -not -uid "$(id -u apy)" | grep .; then echo "Found files not owned by apy here, please chown apy:apy" >&2; exit 1; fi
     sudo -u apy git pull
     sudo -u apy git submodule update --recursive
     sudo -u apy ./build-apy-server
