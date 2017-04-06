@@ -8,6 +8,7 @@ After=network.target
 User=apy
 WorkingDirectory=/home/apy/apertium-apy
 ExecStart=/usr/bin/python3 servlet.py /usr/share/apertium/modes --max-idle-secs 3600 --restart-pipe-after 100 --userdb /home/apy/apertium-apy/users --missing-freqs /home/apy/apertium-apy/missing.db 
+Environment="PATH=/usr/sbin:/usr/bin"
 
 # By default, if it restarts >10 times within 5 secs, it marks it as failed and gives up:
 Restart=always
