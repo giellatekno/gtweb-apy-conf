@@ -113,9 +113,7 @@ run =/usr/bin/pdftohtml= and to do =from corpustools import
 pdfconverter= from the apy directory, and currently this is done with:
 
 : sudo dnf install poppler-utils
-: svn co https://victorio.uit.no/langtech/trunk/tools/CorpusTools
-: cd CorpusTools
-: sudo python2.7 setup.py install --install-scripts=/usr/bin
+: svn co --depth immediates https://victorio.uit.no/langtech/trunk/tools/CorpusTools/corpustools /home/apy/apertium-apy/corpustools
 
 APY will detect if corpustools and pdftohtml are available.
 
