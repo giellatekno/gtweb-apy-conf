@@ -107,6 +107,17 @@ restarts of gtweb.
 Then update and build apertium-apy and the apertium-html-tools pages:
 : sudo /home/apy/update
 
+** PDF translation support
+This uses CorpusTools if available. We need to ensure it's possible to
+run =/usr/bin/pdftohtml= and to do =from corpustools import
+pdfconverter= from the apy directory, and currently this is done with:
+
+: sudo dnf install poppler-utils
+: svn co https://victorio.uit.no/langtech/trunk/tools/CorpusTools
+: cd CorpusTools
+: sudo python2.7 setup.py install --install-scripts=/usr/bin
+
+APY will detect if corpustools and pdftohtml are available.
 
 ** Details
 
