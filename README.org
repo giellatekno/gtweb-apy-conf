@@ -114,6 +114,7 @@ pdfconverter= from the apy directory, and currently this is done with:
 
 : sudo dnf install poppler-utils
 : svn co --depth immediates https://victorio.uit.no/langtech/trunk/tools/CorpusTools/corpustools /home/apy/apertium-apy/corpustools
+: svn up --set-depth infinity /home/apy/apertium-apy/corpustools/{xslt,xml,dtd}
 
 APY will detect if corpustools and pdftohtml are available.
 
