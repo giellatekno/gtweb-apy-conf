@@ -11,6 +11,7 @@ WorkingDirectory=/home/apy/apertium-apy
 PermissionsStartOnly=true
 ExecStartPre=-/usr/bin/mkdir /var/cache/apy
 ExecStartPre=/usr/bin/chown -R apy:apy /var/cache/apy
+ExecStartPre=/usr/bin/chmod 700 /var/cache/apy
 ExecStart=/usr/bin/python3 servlet.py /usr/share/apertium/modes --max-idle-secs 3600 --restart-pipe-after 100 --userdb /home/apy/apertium-apy/users --missing-freqs /home/apy/apertium-apy/missing.db --url-xsls /home/apy/freecorpus-orig-pdf-xsl --url-xsls /home/apy/boundcorpus-orig-pdf-xsl --url-cache-path /var/cache/apy
 Environment="PATH=/usr/sbin:/usr/bin"
 
