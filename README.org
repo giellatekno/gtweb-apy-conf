@@ -99,6 +99,7 @@ Install language pairs from Tino's repo:
 : git pull
 : git submodule init
 : git submodule update --recursive
+: svn co https://gtsvn.uit.no/langtech/trunk GTHOME
 
 Then log in as a user with sudo-rights, and install configuration files:
 : sudo /home/apy/install-and-enable-services

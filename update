@@ -29,7 +29,7 @@ main () {
     systemctl restart apy
     sleep 1
     sudo -u apy ./build-html-pages
-    if ! find etc/ -type f -print0 | xargs -r0I{} diff -q '{}' '/{}'; then
+    if ! find etc/ usr/ -type f -print0 | xargs -r0I{} diff -q '{}' '/{}'; then
         echo "Configuration files changed – you should run $D/install-and-enable-services"
     else
         systemctl status apy

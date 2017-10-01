@@ -6,7 +6,7 @@ set -e -u
 for submodule in apertium-apy/ apertium-html-tools/; do
     ( cd "${submodule}" && git pull origin giellatekno )
 done
-cd divvun-gramcheck/ && git pull origin master
+( cd divvun-gramcheck/ && git pull origin master )
 
 git commit apertium-apy apertium-html-tools divvun-gramcheck -m "updated submodules"
 

@@ -1,0 +1,9 @@
+[Unit]
+Description=SVN up apy user's checkouts every so often
+
+[Timer]
+OnCalendar=02,08,12,14,16,18:42
+
+[Install]
+WantedBy=timers.target
+

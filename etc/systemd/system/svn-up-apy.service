@@ -1,0 +1,8 @@
+[Unit]
+Description=SVN up apy user's checkouts
+
+[Service]
+Type=simple
+Restart=no
+ExecStart=/usr/bin/svn up /home/apy/GTHOME
+
