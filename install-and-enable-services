@@ -26,5 +26,5 @@ firewall-cmd --reload
 certbot --agree-tos -m unhammer+apertium@mm.st --apache -n certonly -d gtweb.uit.no
 
 systemctl daemon-reload
-systemctl enable apy.service restart-apy.timer dnf-automatic.timer certbot.timer
-systemctl start  apy.service restart-apy.timer dnf-automatic.timer certbot.timer
+systemctl enable apy.service restart-apy.timer dnf-automatic.timer certbot.timer svn-up-apy.timer
+systemctl start  apy.service restart-apy.timer dnf-automatic.timer certbot.timer svn-up-apy.timer
