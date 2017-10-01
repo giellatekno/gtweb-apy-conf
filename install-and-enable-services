@@ -12,6 +12,8 @@ declare -r D
 
 cd "$D"
 
+set -x
+
 find etc/ -type f -exec install -Dm644 {} /{} \;
 
 restorecon /etc/firewalld/services/apy.xml

@@ -81,6 +81,9 @@ Then, as a sudo-user on gtweb, do:
 
 In case e.g. gtweb dies and you need to reinstall everything:
 
+Install certbot for https:
+: sudo dnf install python3-certbot-apache
+
 Install language pairs from Tino's repo:
 
 : curl -Ss https://apertium.projectjj.com/rpm/install-nightly.sh | sudo bash

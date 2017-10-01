@@ -6,3 +6,6 @@
 	path = apertium-apy
 	url = https://github.com/goavki/apertium-apy/
 	branch = giellatekno
+[submodule "divvun-gramcheck"]
+	path = divvun-gramcheck
+	url = https://github.com/divvun/divvun-gramcheck

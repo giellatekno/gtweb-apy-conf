@@ -1,0 +1,19 @@
+#!/bin/bash
+
+set -e -u
+
+if [[ "$(whoami)" != apy ]]; then
+    echo "ERROR: Run this script as user 'apy', e.g. with 'sudo -u apy /home/apy/build-apy-server'"
+    exit 1
+fi
+
+set -x
+cd ~/divvun-gramcheck/
+scripts/get-pugixml-and-build --prefix=/home/apy/PREFIX/divvun-gramcheck
+make install
+set +x
+
+echo
+echo
+echo 'divvun-gramcheck is up-to-date! Do "sudo systemctl restart apy" to use the new version immediately'
+echo

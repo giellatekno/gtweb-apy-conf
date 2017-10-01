@@ -2,9 +2,13 @@
 
 set -e -u
 
-git submodule foreach git pull origin giellatekno
+# git submodule foreach git pull origin giellatekno
+for submodule in apertium-apy/ apertium-html-tools/; do
+    ( cd "${submodule}" && git pull origin giellatekno )
+done
+cd divvun-gramcheck/ && git pull origin master
 
-git commit apertium-apy apertium-html-tools -m "updated submodules"
+git commit apertium-apy apertium-html-tools divvun-gramcheck -m "updated submodules"
 
 git push || echo 'Failed pushing!'
 
