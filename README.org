@@ -101,6 +101,9 @@ Install language pairs from Tino's repo:
 : git submodule update --recursive
 : svn co https://gtsvn.uit.no/langtech/trunk GTHOME
 
+Because gtweb doesn't have enough memory to compile this, from a different machine do:
+: scp $GTHOME/langs/sme/tools/tokenisers/tokeniser-gramcheck-gt-desc.pmhfst apy@gtweb:GTHOME/langs/sme/tools/tokenisers/tokeniser-gramcheck-gt-desc.pmhfst
+
 Then log in as a user with sudo-rights, and install configuration files:
 : sudo /home/apy/install-and-enable-services
 
