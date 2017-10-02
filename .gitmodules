@@ -9,3 +9,9 @@
 [submodule "divvun-gramcheck"]
 	path = divvun-gramcheck
 	url = https://github.com/divvun/divvun-gramcheck
+[submodule "divvun-webdemo"]
+	path = divvun-webdemo
+	url = https://github.com/divvun/divvun-webdemo
+[submodule "ckeditor-divvungc"]
+	path = ckeditor-divvungc
+	url = https://github.com/divvun/ckeditor-divvungc
