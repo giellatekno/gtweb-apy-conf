@@ -9,7 +9,7 @@ fi
 
 set -x
 cd ~/divvun-gramcheck/
-scripts/get-pugixml-and-build --prefix=/home/apy/PREFIX/divvun-gramcheck
+scripts/get-pugixml-and-build --prefix=/home/apy/PREFIX/divvun-gramcheck --enable-cgspell --enable-checker
 make install
 set +x
 

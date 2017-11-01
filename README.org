@@ -89,6 +89,10 @@ Install language pairs from Tino's repo:
 : curl -Ss https://apertium.projectjj.com/rpm/install-nightly.sh | sudo bash
 : sudo dnf install apertium-sme-nob # etc.
 
+and dependencies of divvun-gramcheck:
+
+: sudo dnf install hfst-ospell-devel libarchive-devel
+
 - add a new user =apy= (group =apy=) with home dir =/home/apy=
 - log in as this user =apy=, and run
 
