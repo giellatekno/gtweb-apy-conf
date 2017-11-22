@@ -1,10 +1,2 @@
 
-hfst-tokenise -g -S '/home/apy/GTHOME/langs/sme/tools/grammarcheckers/tokeniser-gramcheck-gt-desc.pmhfst' \
- | vislcg3 --quiet -g '/home/apy/GTHOME/langs/sme/tools/grammarcheckers/../../src/syntax/valency.cg3' \
- | vislcg3 --quiet -g '/home/apy/GTHOME/langs/sme/tools/grammarcheckers/../tokenisers/mwe-dis.cg3' \
- | cg-mwesplit \
- | /home/apy/PREFIX/divvun-gramcheck/bin/divvun-cgspell -m '/home/apy/GTHOME/langs/sme/tools/grammarcheckers/errmodel.default.hfst' -l  '/home/apy/GTHOME/langs/sme/tools/grammarcheckers/acceptor.default.hfst' -n 25 \
- | /home/apy/PREFIX/divvun-gramcheck/bin/divvun-blanktag '/home/apy/GTHOME/langs/sme/tools/grammarcheckers/blanktagger.hfst' \
- | vislcg3 --quiet -g '/home/apy/GTHOME/langs/sme/tools/grammarcheckers/disambiguator.cg3' \
- | vislcg3 --quiet -g '/home/apy/GTHOME/langs/sme/tools/grammarcheckers/grammarchecker.cg3' \
- | /home/apy/PREFIX/divvun-gramcheck/bin/divvun-suggest --json '/home/apy/GTHOME/langs/sme/tools/grammarcheckers/generator-gt-norm.hfstol' '/home/apy/GTHOME/langs/sme/tools/grammarcheckers/errors.xml'
+hfst-tokenise -g -S '/home/apy/GTHOME/langs/sme/tools/grammarcheckers/tokeniser-gramcheck-gt-desc.pmhfst' | vislcg3 --quiet -g '/home/apy/GTHOME/langs/sme/tools/grammarcheckers/../../src/syntax/valency.cg3' | vislcg3 --quiet -g '/home/apy/GTHOME/langs/sme/tools/grammarcheckers/../tokenisers/mwe-dis.cg3' | cg-mwesplit | /home/apy/PREFIX/divvun-gramcheck/bin/divvun-cgspell -m '/home/apy/GTHOME/langs/sme/tools/grammarcheckers/errmodel.default.hfst' -l  '/home/apy/GTHOME/langs/sme/tools/grammarcheckers/acceptor.default.hfst' -n 25 | /home/apy/PREFIX/divvun-gramcheck/bin/divvun-blanktag '/home/apy/GTHOME/langs/sme/tools/grammarcheckers/blanktagger.hfst' | vislcg3 --quiet -g '/home/apy/GTHOME/langs/sme/tools/grammarcheckers/disambiguator.cg3' | vislcg3 --quiet -g '/home/apy/GTHOME/langs/sme/tools/grammarcheckers/grammarchecker.cg3' | /home/apy/PREFIX/divvun-gramcheck/bin/divvun-suggest --json '/home/apy/GTHOME/langs/sme/tools/grammarcheckers/generator-gt-norm.hfstol' '/home/apy/GTHOME/langs/sme/tools/grammarcheckers/errors.xml'
