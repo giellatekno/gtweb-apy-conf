@@ -1,4 +1,3 @@
-#!/bin/sh
 
 hfst-tokenise -g -S '/home/apy/GTHOME/langs/sme/tools/grammarcheckers/tokeniser-gramcheck-gt-desc.pmhfst' \
  | vislcg3 --quiet -g '/home/apy/GTHOME/langs/sme/tools/grammarcheckers/../../src/syntax/valency.cg3' \
