@@ -87,7 +87,8 @@ Install certbot for https:
 Install language pairs from Tino's repo:
 
 : curl -Ss https://apertium.projectjj.com/rpm/install-nightly.sh | sudo bash
-: sudo dnf install apertium-sme-nob # etc.
+: sudo dnf install giella-sme       # for divvun-gramcheck
+: sudo dnf install apertium-sme-nob # and other language pairs for MT
 
 and dependencies of divvun-gramcheck:
 
@@ -104,9 +105,16 @@ and dependencies of divvun-gramcheck:
 : git submodule init
 : git submodule update --recursive
 : svn co https://gtsvn.uit.no/langtech/trunk GTHOME
+: # Use the compiled generator that comes with the dnf package giella-sme:
+: ln -s /usr/share/giella/sme/generator-gt-norm.hfstol GTHOME/langs/sme/tools/grammarcheckers/
 
-Because gtweb doesn't have enough memory to compile this, from a different machine do:
-: scp $GTHOME/langs/sme/tools/tokenisers/tokeniser-gramcheck-gt-desc.pmhfst apy@gtweb:GTHOME/langs/sme/tools/tokenisers/tokeniser-gramcheck-gt-desc.pmhfst
+Unfortunately giella-sme doesn't yet include the grammar checker
+tokeniser (and blanktagger), and gtweb doesn't have enough memory to
+compile giella-sme, so from a different machine do:
+: scp $GTHOME/langs/sme/tools/tokenisers/tokeniser-gramcheck-gt-desc.pmhfst apy@gtweb:GTHOME/langs/sme/tools/grammarcheckers/
+: scp $GTHOME/langs/sme/tools/tokenisers/blanktagger.hfst                   apy@gtweb:GTHOME/langs/sme/tools/grammarcheckers/
+: scp $GTHOME/langs/sme/tools/tokenisers/acceptor.default.hfst              apy@gtweb:GTHOME/langs/sme/tools/grammarcheckers/
+: scp $GTHOME/langs/sme/tools/tokenisers/errmodel.default.hfst              apy@gtweb:GTHOME/langs/sme/tools/grammarcheckers/
 
 Then log in as a user with sudo-rights, and install configuration files:
 : sudo /home/apy/install-and-enable-services
