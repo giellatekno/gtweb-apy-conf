@@ -111,10 +111,10 @@ and dependencies of divvun-gramcheck:
 Unfortunately giella-sme doesn't yet include the grammar checker
 tokeniser (and blanktagger), and gtweb doesn't have enough memory to
 compile giella-sme, so from a different machine do:
-: scp $GTHOME/langs/sme/tools/tokenisers/tokeniser-gramcheck-gt-desc.pmhfst apy@gtweb:GTHOME/langs/sme/tools/grammarcheckers/
-: scp $GTHOME/langs/sme/tools/tokenisers/blanktagger.hfst                   apy@gtweb:GTHOME/langs/sme/tools/grammarcheckers/
-: scp $GTHOME/langs/sme/tools/tokenisers/acceptor.default.hfst              apy@gtweb:GTHOME/langs/sme/tools/grammarcheckers/
-: scp $GTHOME/langs/sme/tools/tokenisers/errmodel.default.hfst              apy@gtweb:GTHOME/langs/sme/tools/grammarcheckers/
+: scp $GTHOME/langs/sme/tools/grammarcheckers/tokeniser-gramcheck-gt-desc.pmhfst apy@gtweb:GTHOME/langs/sme/tools/grammarcheckers/
+: scp $GTHOME/langs/sme/tools/grammarcheckers/analyser-gt-whitespace.hfst        apy@gtweb:GTHOME/langs/sme/tools/grammarcheckers/
+: scp $GTHOME/langs/sme/tools/grammarcheckers/acceptor.default.hfst              apy@gtweb:GTHOME/langs/sme/tools/grammarcheckers/
+: scp $GTHOME/langs/sme/tools/grammarcheckers/errmodel.default.hfst              apy@gtweb:GTHOME/langs/sme/tools/grammarcheckers/
 
 Then log in as a user with sudo-rights, and install configuration files:
 : sudo /home/apy/install-and-enable-services
