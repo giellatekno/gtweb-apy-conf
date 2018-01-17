@@ -1,0 +1,4 @@
+
+
+hfst-tokenize -g -S '/usr/share/giella/fao/tokeniser-gramcheck-gt-desc.pmhfst' | vislcg3 --quiet -g '/home/apy/GTHOME/langs/fao/tools/tokenisers/mwe-dis.cg3'  | cg-mwesplit | vislcg3 --quiet -g '/home/apy/GTHOME/langs/fao/src/syntax/disambiguator.cg3' | vislcg3 --quiet -g '/home/apy/GTHOME/langs/fao/tools/grammarcheckers/grammarchecker.cg3' |  /home/apy/PREFIX/divvun-gramcheck/bin/divvun-suggest --json '/usr/share/giella/fao/generator-gt-norm.hfstol' '/home/apy/GTHOME/langs/fao/tools/grammarcheckers/errors.xml'
+
