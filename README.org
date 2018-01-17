@@ -108,13 +108,15 @@ and dependencies of divvun-gramcheck:
 : # Use the compiled generator that comes with the dnf package giella-sme:
 : ln -s /usr/share/giella/sme/generator-gt-norm.hfstol GTHOME/langs/sme/tools/grammarcheckers/
 
-Unfortunately giella-sme doesn't yet include the grammar checker
-tokeniser (and blanktagger), and gtweb doesn't have enough memory to
-compile giella-sme, so from a different machine do:
-: scp $GTHOME/langs/sme/tools/grammarcheckers/tokeniser-gramcheck-gt-desc.pmhfst apy@gtweb:GTHOME/langs/sme/tools/grammarcheckers/
+Unfortunately giella-sme doesn't yet include the blanktagger and
+grammar checker-specific spelling lexicon (and gtweb doesn't have
+enough memory to compile giella-sme), so from a different machine do:
 : scp $GTHOME/langs/sme/tools/grammarcheckers/analyser-gt-whitespace.hfst        apy@gtweb:GTHOME/langs/sme/tools/grammarcheckers/
 : scp $GTHOME/langs/sme/tools/grammarcheckers/acceptor.default.hfst              apy@gtweb:GTHOME/langs/sme/tools/grammarcheckers/
 : scp $GTHOME/langs/sme/tools/grammarcheckers/errmodel.default.hfst              apy@gtweb:GTHOME/langs/sme/tools/grammarcheckers/
+(Note: At some point in the future, the grammarchecker generator will
+also differ from what's installed by giella-sme, in which case we'll
+either have to scp it or include it in a package somehow.)
 
 Then log in as a user with sudo-rights, and install configuration files:
 : sudo /home/apy/install-and-enable-services
