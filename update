@@ -26,7 +26,6 @@ main () {
     sudo -u apy git pull
     sudo -u apy git submodule update --init --recursive
 
-    sudo -u apy ./build-divvun-gramcheck
     sudo -u apy ./build-apy-server
 
     systemctl restart apy

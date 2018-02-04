@@ -84,18 +84,16 @@ In case e.g. gtweb dies and you need to reinstall everything:
 Install certbot for https:
 : sudo dnf install python3-certbot-apache
 
-Install language pairs from Tino's repo:
+Install tools and language pairs from Tino's repo:
 
 : curl -Ss https://apertium.projectjj.com/rpm/install-nightly.sh | sudo bash
+: sudo dnf install divvun-gramcheck
 : sudo dnf install giella-sme       # for divvun-gramcheck
 : sudo dnf install apertium-sme-nob # and other language pairs for MT
 
-and dependencies of divvun-gramcheck:
+Add a new user =apy= (group =apy=) with home dir =/home/apy=.
 
-: sudo dnf install hfst-ospell-devel libarchive-devel
-
-- add a new user =apy= (group =apy=) with home dir =/home/apy=
-- log in as this user =apy=, and run
+Log in as this user =apy=, and run
 
 : cd /home/apy
 : git init
