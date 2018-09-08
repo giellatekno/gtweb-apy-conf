@@ -14,8 +14,9 @@ cd "$D"
 
 set -x
 
-find etc/ -type f -exec install -Dm644 {} /{} \;
-find usr/ -type f -exec install -Dm644 {} /{} \;
+find etc/           -type f -exec install -Dm644 {} /{} \;
+find usr/           -type f -exec install -Dm644 {} /{} \;
+find usr/local/bin/ -type f -exec install -Dm755 {} /{} \;
 
 restorecon /etc/firewalld/services/apy.xml
 firewall-cmd --permanent --add-service=apy
