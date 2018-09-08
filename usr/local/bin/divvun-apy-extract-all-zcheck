@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+
+# Extract all the Divvun zcheck files, create modes files from
+# pipespec's and copy them into the right file names for apertium-apy
+# to use.
+
+# If the pipespec language attribute is e.g. "sme", and the pipe is
+# named "smegram", the mode will be named "sme-sme_gram". If the name
+# of the pipe doesn't start with the language code (e.g. 2-letter code
+# used one place and 3-letter another), the mode might get named
+# e.g. "se-se_smegram" or similar. Apy will still convert 2→3, giving
+# "sme-sme_smegram" in that case.
+
+set -e -x
+
+export PATH=/usr/bin
+
+apybash () {
+    # apy has a very stupid bash script parser
+    grep -v '^#'         \
+        | sed 's/\\$//g' \
+        | tr '\n' ' '
+}
+
+for zcheck in /usr/share/voikko/4/*.zcheck; do
+    dir=${zcheck%%.zcheck}
+    pipespec="${dir}"/pipespec.xml
+    if unzip -o -u -d "${dir}" "${zcheck}" && [[ -f ${pipespec} ]]; then
+        tmpd=$(mktemp -d -t divvun-apy-extract-all-zcheck.XXXXXXXX)
+        divvun-gen-sh --json --nodebug --dir "${tmpd}" "${pipespec}" || continue
+        lang=$(xmllint --xpath 'string(/pipespec/@language)' "${pipespec}")
+        for mode in "${tmpd}"/*.mode; do
+            base=$(basename "${mode}") # e.g. 'smegram'
+            basenolang="${base##${lang}}" # e.g. 'gram'
+            newbase="${lang}"-"${lang}"_"${basenolang}" # e.g. 'sme-sme_gram', since that's what apy expects
+            apybash < "${mode}" > /usr/share/apertium/modes/"${newbase}"
+        done
+        rm -rf "${tmpd}"
+    fi
+done
