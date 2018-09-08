@@ -11,7 +11,7 @@
 # e.g. "se-se_smegram" or similar. Apy will still convert 2→3, giving
 # "sme-sme_smegram" in that case.
 
-set -e -x
+set -e
 
 export PATH=/usr/bin
 
