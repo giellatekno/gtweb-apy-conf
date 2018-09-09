@@ -1,2 +1,0 @@
-
-hfst-tokenise -g -S '/usr/share/voikko/4/se/tokeniser-gramcheck-gt-desc.pmhfst' | vislcg3 --quiet -g '/usr/share/voikko/4/se/mwe-dis.bin' | cg-mwesplit | divvun-cgspell -m '/usr/share/voikko/4/se/errmodel.default.hfst' -l  '/usr/share/voikko/4/se/acceptor.default.hfst' -n 25 | vislcg3 --quiet -g '/usr/share/voikko/4/se/disambiguator.bin' | vislcg3 --quiet -g '/usr/share/voikko/4/se/spellchecker.bin' | divvun-suggest --json --lang se '/usr/share/voikko/4/se/generator-gramcheck-gt-norm.hfstol' '/usr/share/voikko/4/se/errors.xml'
