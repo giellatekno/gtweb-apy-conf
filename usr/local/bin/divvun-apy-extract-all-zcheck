@@ -31,8 +31,7 @@ for zcheck in /usr/share/voikko/4/*.zcheck; do
         lang=$(xmllint --xpath 'string(/pipespec/@language)' "${pipespec}")
         for mode in "${tmpd}"/*.mode; do
             base=$(basename "${mode}") # e.g. 'smegram'
-            basenolang="${base##${lang}}" # e.g. 'gram'
-            newbase="${lang}"-"${lang}"_"${basenolang}" # e.g. 'sme-sme_gram', since that's what apy expects
+            newbase="${lang}"-"${lang}"_"${base}" # e.g. 'sme-sme_smegram', since that's what apy expects
             apybash < "${mode}" > /usr/share/apertium/modes/"${newbase}"
         done
         rm -rf "${tmpd}"
