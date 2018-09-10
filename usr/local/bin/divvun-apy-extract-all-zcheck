@@ -22,17 +22,34 @@ apybash () {
         | tr '\n' ' '
 }
 
+mkdir -p /usr/share/apertium/modes/
+mkdir -p /opt/gc/html/pipespec/
+
 for zcheck in /usr/share/voikko/4/*.zcheck; do
+    if [[ ! -e ${zcheck} ]]; then
+        # glob will turn into literal string "*" if there are no
+        # matches, don't do anything then
+        continue
+    fi
     dir=${zcheck%%.zcheck}
     pipespec="${dir}"/pipespec.xml
-    if unzip -o -u -d "${dir}" "${zcheck}" && [[ -f ${pipespec} ]]; then
+    if unzip -q -o -u -d "${dir}" "${zcheck}" && [[ -f ${pipespec} ]]; then
         tmpd=$(mktemp -d -t divvun-apy-extract-all-zcheck.XXXXXXXX)
         divvun-gen-sh --json --nodebug --dir "${tmpd}" "${pipespec}" || continue
-        lang=$(xmllint --xpath 'string(/pipespec/@language)' "${pipespec}")
+        speclang=$(xmllint --xpath 'string(/pipespec/@language)' "${pipespec}")
         for mode in "${tmpd}"/*.mode; do
-            base=$(basename "${mode}") # e.g. 'smegram'
-            newbase="${lang}"-"${lang}"_"${base}" # e.g. 'sme-sme_smegram', since that's what apy expects
-            apybash < "${mode}" > /usr/share/apertium/modes/"${newbase}"
+            # Copy e.g. smegram.mode to
+            # /usr/share/apertium/modes/se.se.smegram.checker.mode:
+            # since apy (branch giellatekno) expects checker mode
+            # files to be named
+            # "SPECLANG.PIPELANG.PIPENAME.checker.mode"
+            pipename=$(basename "${mode}"); pipename=${pipename%%.mode}
+            pipelang=$(xmllint --xpath  "string(//pipeline[@name='${pipename}']/@language)" "${pipespec}")
+            [[ -z ${pipelang} ]] && pipelang=${speclang} # optional field, default speclang
+            modename="${speclang}.${pipelang}.${pipename}"
+            apybash < "${mode}" > /usr/share/apertium/modes/"${modename}".checker.mode
+            # And copy the pipespec.xml to /opt/gc/html/pipespec/se.xml:
+            cp "${pipespec}" /opt/gc/html/pipespec/"${speclang}".xml
         done
         rm -rf "${tmpd}"
     fi
