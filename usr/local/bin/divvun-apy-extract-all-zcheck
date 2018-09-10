@@ -23,7 +23,7 @@ apybash () {
 }
 
 mkdir -p /usr/share/apertium/modes/
-mkdir -p /opt/gc/html/pipespec/
+mkdir -p /opt/gc/html/errors/
 
 for zcheck in /usr/share/voikko/4/*.zcheck; do
     if [[ ! -e ${zcheck} ]]; then
@@ -48,8 +48,9 @@ for zcheck in /usr/share/voikko/4/*.zcheck; do
             [[ -z ${pipelang} ]] && pipelang=${speclang} # optional field, default speclang
             modename="${speclang}.${pipelang}.${pipename}"
             apybash < "${mode}" > /usr/share/apertium/modes/"${modename}".checker.mode
-            # And copy the pipespec.xml to /opt/gc/html/pipespec/se.xml:
-            cp "${pipespec}" /opt/gc/html/pipespec/"${speclang}".xml
+            # And copy the errors.xml to /opt/gc/html/pipespec/se.xml:
+            errors="$(dirname "${pipespec}")"/errors.xml
+            cp "${errors}" /opt/gc/html/errors/"${speclang}".xml
         done
         rm -rf "${tmpd}"
     fi
