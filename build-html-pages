@@ -25,7 +25,7 @@ fi
 
 set -x
 cd ~/apertium-html-tools
-for goal in jorgal tolkimine mt-testing; do
+for goal in jorgal tolkimine mt mt-testing; do
     export CONFIG=../html-tools-confs/"${goal}".conf
     make clean
     # html-tools config doesn't yet let you restrict locales, TODO

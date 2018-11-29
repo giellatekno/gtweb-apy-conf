@@ -4,6 +4,7 @@ This repository contains the configuration for the MT interfaces at
 - http://gtweb.uit.no/jorgal/
 - http://gtweb.uit.no/tolkimine/
 - http://gtweb.uit.no/mt-testing/
+- http://gtweb.uit.no/mt/
 
 The translation daemon/server is running under the user "apy" on the
 server gtweb (gtweb.uit.no), and the html pages also reside under the
