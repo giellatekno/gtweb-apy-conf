@@ -31,7 +31,8 @@ The apertium-apy daemon runs as a systemd service, and there's an
 Apache rewrite rule that makes it available under
 https://gtweb.uit.no/apy, which is referred to by the static html
 pages. Apache is serving SSL signed by Lets Encrypt / certbot; see
-files under [[./etc/httpd/conf.d]].
+files under [[./etc/httpd/conf.d]]. Apache is running behind nginx, see
+=gtweb.uit.no:/etc/nginx/sites-available/gtweb_apache_proxy.conf=.
 
 The following sections define how to do common or uncommon tasks like
 installing everything from scratch, installing new language pairs,
