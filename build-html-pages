@@ -23,25 +23,29 @@ if ! curl localhost:2737; then
     sleep 10
 fi
 
+tmp=$(mktemp -t gtweb-html-pages.XXXXXXXX)
+trap 'rm -f "${tmp}"' EXIT
+
 set -x
 cd ~/apertium-html-tools
 for goal in jorgal tolkimine mt mt-testing; do
     export CONFIG=../html-tools-confs/"${goal}".conf
+    git checkout -- .
     make clean
     # html-tools config doesn't yet let you restrict locales, TODO
     cat ../html-tools-confs/locales-"${goal}".json > assets/strings/locales.json
+    if [[ "${goal}" = mt ]]; then
+        # Add a little message in /mt:
+        jq '.Translate_Input_Placeholder |= .+"\n\nPrográmmat davvisámegillii jorgalit dušše sánis sátnái." ' < assets/strings/sme.json > "${tmp}"
+        /usr/bin/mv "${tmp}" assets/strings/sme.json
+        jq '.Translate_Input_Placeholder |= .+"\n\nProgrammene TIL nordsamisk oversetter bare ord for ord." ' < assets/strings/nob.json > "${tmp}"
+        /usr/bin/mv "${tmp}" assets/strings/nob.json
+        jq '.Translate_Input_Placeholder |= .+"\n\nWhen translating TO North Sámi, we only translate word for word." ' < assets/strings/eng.json > "${tmp}"
+        /usr/bin/mv "${tmp}" assets/strings/eng.json
+    fi
     make -s -j yeti || make yeti
     rsync -a --delete-after build/ "${goal}"/
 done
-# Add a little message in /mt:
-tmp=$(mktemp -t gtweb-html-pages.XXXXXXXX)
-trap 'rm -f "${tmp}"' EXIT
-jq '.Translate_Input_Placeholder |= .+"\n\nPrográmmat davvisámegillii jorgalit dušše sánis sátnái." ' < mt/strings/sme.json > "${tmp}"
-/usr/bin/mv "${tmp}" mt/strings/sme.json
-jq '.Translate_Input_Placeholder |= .+"\n\nProgrammene TIL nordsamisk oversetter bare ord for ord." ' < mt/strings/nob.json > "${tmp}"
-/usr/bin/mv "${tmp}" mt/strings/nob.json
-jq '.Translate_Input_Placeholder |= .+"\n\nWhen translating TO North Sámi, we only translate word for word." ' < mt/strings/eng.json > "${tmp}"
-/usr/bin/mv "${tmp}" mt/strings/eng.json
 
 git checkout -- .
 set +x
