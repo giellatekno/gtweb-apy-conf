@@ -28,11 +28,15 @@ There are some submodules:
 - the grammar checker CK-editor web interface [[https://github.com/divvun/ckeditor-divvungc][ckeditor-divvungc]]
 
 The apertium-apy daemon runs as a systemd service, and there's an
-Apache rewrite rule that makes it available under
-https://gtweb.uit.no/apy, which is referred to by the static html
-pages. Apache is serving SSL signed by Lets Encrypt / certbot; see
-files under [[./etc/httpd/conf.d]]. Apache is running behind nginx, see
-=gtweb.uit.no:/etc/nginx/sites-available/gtweb_apache_proxy.conf=.
+Apache rewrite rule that makes gtweb.uit.no:2737 available under
+gtweb.uit.no/apy. Apache is serving plain http, but is running behind
+nginx (see [[./etc/nginx/sites-enabled/jorgal_apache_proxy.conf]] and
+[[./etc/nginx/sites-enabled/gtweb_apache_proxy.conf]]) which serves SSL
+signed by Lets Encrypt / certbot. All requests to apertium-apy from
+the static html pages go to https://gtweb.uit.no/apy, although we
+still allow accessing the pages through plain http since https makes
+the website translation break on loading external resources (see
+https://github.com/unhammer/gtweb-apy-conf/issues/2).
 
 The following sections define how to do common or uncommon tasks like
 installing everything from scratch, installing new language pairs,
