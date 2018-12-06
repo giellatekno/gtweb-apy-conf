@@ -1,3 +1,5 @@
+#+STARTUP: showall
+
 * Introduction
 
 This repository contains the configuration for the MT interfaces at
@@ -19,9 +21,17 @@ Any change to the configuration is first checked in to git and pushed
 to github, then the configuration is updated at gtweb by running the
 =update= script, which also might update submodules and build them.
 
-There are two submodules:
+There are some submodules:
 - the translation daemon/server [[https://github.com/goavki/apertium-apy/tree/giellatekno/][apertium-apy]], branch giellatekno
 - the static html pages [[https://github.com/goavki/apertium-html-tools/tree/giellatekno/][apertium-html-tools]], branch giellatekno
+- the grammar checker Quill editor web interface [[https://github.com/divvun/divvun-webdemo][divvun-webdemo]]
+- the grammar checker CK-editor web interface [[https://github.com/divvun/ckeditor-divvungc][ckeditor-divvungc]]
+
+The apertium-apy daemon runs as a systemd service, and there's an
+Apache rewrite rule that makes it available under
+https://gtweb.uit.no/apy, which is referred to by the static html
+pages. Apache is serving SSL signed by Lets Encrypt / certbot; see
+files under [[./etc/httpd/conf.d]].
 
 The following sections define how to do common or uncommon tasks like
 installing everything from scratch, installing new language pairs,
