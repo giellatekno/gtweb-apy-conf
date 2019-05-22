@@ -18,8 +18,6 @@ find etc/           -type f -exec install -Dm644 {} /{} \;
 find usr/           -type f -exec install -Dm644 {} /{} \;
 find usr/local/bin/ -type f -exec install -Dm755 {} /{} \;
 
-certbot --expand --agree-tos -m unhammer+apertium@mm.st --nginx -n certonly -d gtweb.uit.no -d jorgal.uit.no
-
 systemctl daemon-reload
 systemctl enable apy.service restart-apy.timer certbot.timer svn-up-apy.timer
 systemctl start  apy.service restart-apy.timer certbot.timer svn-up-apy.timer
@@ -29,3 +27,5 @@ restorecon /etc/firewalld/services/apy.xml
 firewall-cmd --permanent --add-service=apy
 firewall-cmd --permanent --add-service=https
 firewall-cmd --reload
+
+certbot --expand --agree-tos -m unhammer+apertium@mm.st --nginx -n certonly -d gtweb.uit.no -d jorgal.uit.no
