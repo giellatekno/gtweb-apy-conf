@@ -65,7 +65,7 @@ have to), e.g.
 To install the new language pair on gtweb, log in as a user with
 sudo-rights and do:
 
-: sudo dnf install apertium-from-to
+: sudo yum install apertium-from-to
 : sudo /home/apy/update
 
 
@@ -98,18 +98,23 @@ Then, as a sudo-user on gtweb, do:
 In case e.g. gtweb dies and you need to reinstall everything:
 
 Install certbot for https:
-: sudo dnf install python3-certbot-apache
+: sudo yum install certbot python2-certbot-nginx
 
 Install tools and language pairs from Tino's repo:
 
 : curl -Ss https://apertium.projectjj.com/rpm/install-nightly.sh | sudo bash
-: sudo dnf install divvun-gramcheck
-: sudo dnf install giella-sme       # for divvun-gramcheck
-: sudo dnf install apertium-sme-nob # and other language pairs for MT
+: sudo yum update
+: sudo yum install git
+: sudo yum install pugixml-devel    # for building divvun-gramcheck
+: sudo yum install giella-sme       # for running in divvun-gramcheck
+: sudo yum install 'apertium-sme-*  # and other language pairs for MT
 
 Add a new user =apy= (group =apy=) with home dir =/home/apy=.
 
-Log in as this user =apy=, and run
+: sudo adduser apy
+
+Log in as this user =apy= – we'll make the home directory a git repo
+tracking this repo:
 
 : cd /home/apy
 : git init
@@ -118,8 +123,8 @@ Log in as this user =apy=, and run
 : git pull
 : git submodule init
 : git submodule update --recursive
-: svn co https://gtsvn.uit.no/langtech/trunk GTHOME
-: # Use the compiled generator that comes with the dnf package giella-sme:
+: svn co https://gtsvn.uit.no/langtech/trunk GTHOME # grab a coffee or six
+: # Use the compiled generator that comes with the yum package giella-sme:
 : ln -s /usr/share/giella/sme/generator-gt-norm.hfstol GTHOME/langs/sme/tools/grammarcheckers/
 
 Unfortunately giella-sme doesn't yet include the blanktagger and
@@ -135,7 +140,7 @@ either have to scp it or include it in a package somehow.)
 Then log in as a user with sudo-rights, and install configuration files:
 : sudo /home/apy/install-and-enable-services
 
-That script will also ensure that the dnf updater, apertium-apy
+That script will also ensure that the yum updater, apertium-apy
 service and apertium-apy-restarter service are running now and on
 restarts of gtweb.
 
@@ -147,11 +152,14 @@ This uses CorpusTools if available. We need to ensure it's possible to
 run =/usr/bin/pdftohtml= and to do =from corpustools import
 pdfconverter= from the apy directory, and currently this is done with:
 
-: sudo dnf install poppler-utils
+: sudo yum install poppler-utils
+
+Then as user =apy=:
+
 : svn co --depth immediates https://victorio.uit.no/langtech/trunk/tools/CorpusTools/corpustools /home/apy/apertium-apy/corpustools
 : svn up --set-depth infinity /home/apy/apertium-apy/corpustools/{xslt,xml,dtd}
 
-APY will detect if corpustools and pdftohtml are available.
+=apertium-apy= will detect if corpustools and pdftohtml are available.
 
 ** Details
 
@@ -159,7 +167,7 @@ All the relevant configuration files for the gtweb machine are under
 the =etc= folder of this repo, so we know what configs are relevant in
 case we need to reinstall everything.
 
-Language pairs are those that are installed with =dnf install=
+Language pairs are those that are installed with =yum install=
 (=ExecStart= in =etc/systemd/system/apy.service= gives the path to the
 modes files), but individual html configurations can specify a subset
 of pairs to run (see [[https://github.com/unhammer/gtweb-apy-conf#installing-new-language-pairs][Installing new language pairs]]).
