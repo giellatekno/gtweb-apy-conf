@@ -13,7 +13,7 @@
 
 set -e
 
-export PATH=/usr/bin
+export PATH=/usr/bin:/home/apy/PREFIX/divvun-gramcheck/bin
 
 apybash () {
     # apy has a very stupid bash script parser

@@ -97,19 +97,24 @@ Then, as a sudo-user on gtweb, do:
 
 In case e.g. gtweb dies and you need to reinstall everything:
 
-Install some dependencies from Centos/EPEL:
+Install some dependencies from CentOS/EPEL:
 
 : sudo yum install certbot python2-certbot-nginx # for https
 : sudo yum install git jq                        # for this repo, build-html-pages
 : sudo yum install python36-tornado              # for running apertium-apy
-: sudo yum install pugixml-devel                 # for building divvun-gramcheck
-
-Install tools and language pairs from Tino's repo:
+: sudo yum install zip unzip                     # for divvun-apy-extract-all-zcheck
 
 : curl -Ss https://apertium.projectjj.com/rpm/install-nightly.sh | sudo bash
 : sudo yum update
 : sudo yum install giella-sme       # for running in divvun-gramcheck
 : sudo yum install 'apertium-sme-*  # and other language pairs for MT
+
+And these for libdivvun:
+
+: sudo yum install centos-release-scl   # for installing devtoolset's
+: sudo yum install devtoolset-8-gcc-c++ # for recent C++
+: sudo yum install libtool automake cmake pugixml-devel libarchive-devel
+: sudo yum install hfst-ospell-devel
 
 Add a new user =apy= (group =apy=) with home dir =/home/apy=.
 
@@ -127,8 +132,21 @@ tracking this repo:
 : git submodule init
 : git submodule update --recursive
 : svn co https://gtsvn.uit.no/langtech/trunk GTHOME # grab a coffee or six
-: # Use the compiled generator that comes with the yum package giella-sme:
-: ln -s /usr/share/giella/sme/generator-gt-norm.hfstol GTHOME/langs/sme/tools/grammarcheckers/
+# Use the compiled generator that comes with the yum package giella-sme:
+: ln -s /usr/share/giella/sme/generator-gt-norm.hfstol /home/apy/GTHOME/langs/sme/tools/grammarcheckers/
+
+Still as user =apy=, compile =libdivvun= manually since CentOS doesn't
+have =pugixml-devel= in non-extra repos:
+
+: git clone https://github.com/divvun/libdivvun/
+: cd libdivvun
+: scl enable devtoolset-8 bash
+: ./autogen.sh
+: ./configure --enable-checker --enable-cgspell --enable-xml --disable-python-bindings --prefix=/home/apy/PREFIX/divvun-gramcheck
+: make -j5
+: make test # it's ok if the run-lib test fails
+: make -j5 install
+: exit
 
 Unfortunately giella-sme doesn't yet include the blanktagger and
 grammar checker-specific spelling lexicon (and gtweb doesn't have
@@ -192,4 +210,3 @@ We expect a standard Apache httpd running; see configs in
 The file =etc/systemd/system/apy.service= says how to run the
 apertium-apy MT daemon, which is started on restart of the gtweb
 machine.
-
