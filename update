@@ -32,6 +32,7 @@ main () {
     sleep 1
     sudo -u apy ./build-html-pages
 
+    mkdir -p /opt/gc/html/ck
     ( cd ./divvun-webdemo/    && cp -r -- lib index.html ./*.css locales            /opt/gc/html/    )
     ( cd ./ckeditor-divvungc/ && cp -r -- lib index.html ./*.css locales ck-plugins /opt/gc/html/ck/ )
 
