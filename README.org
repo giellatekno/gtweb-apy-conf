@@ -97,15 +97,17 @@ Then, as a sudo-user on gtweb, do:
 
 In case e.g. gtweb dies and you need to reinstall everything:
 
-Install certbot for https:
-: sudo yum install certbot python2-certbot-nginx
+Install some dependencies from Centos/EPEL:
+
+: sudo yum install certbot python2-certbot-nginx # for https
+: sudo yum install git jq                        # for this repo, build-html-pages
+: sudo yum install python36-tornado              # for running apertium-apy
+: sudo yum install pugixml-devel                 # for building divvun-gramcheck
 
 Install tools and language pairs from Tino's repo:
 
 : curl -Ss https://apertium.projectjj.com/rpm/install-nightly.sh | sudo bash
 : sudo yum update
-: sudo yum install git
-: sudo yum install pugixml-devel    # for building divvun-gramcheck
 : sudo yum install giella-sme       # for running in divvun-gramcheck
 : sudo yum install 'apertium-sme-*  # and other language pairs for MT
 
@@ -121,6 +123,7 @@ tracking this repo:
 : git remote add origin https://github.com/unhammer/gtweb-apy-conf.git
 : git branch --set-upstream-to=origin/master master
 : git pull
+: git checkout centos-gtweb-01
 : git submodule init
 : git submodule update --recursive
 : svn co https://gtsvn.uit.no/langtech/trunk GTHOME # grab a coffee or six
@@ -152,9 +155,20 @@ This uses CorpusTools if available. We need to ensure it's possible to
 run =/usr/bin/pdftohtml= and to do =from corpustools import
 pdfconverter= from the apy directory, and currently this is done with:
 
-: sudo yum install poppler-utils
+: sudo yum install https://harbottle.gitlab.io/epypel/7/x86_64/epypel-release-7-2.el7.harbottle.x86_64.rpm
+: # If the above fails, search https://harbottle.gitlab.io/epypel/7/x86_64/ for newest epypel-release-*.rpm url
+: sudo yum install poppler-utils python36-six python36-lxml
 
-Then as user =apy=:
+Check that you have all dependencies by logging in as user =apy= and
+
+: cd apertium-apy
+: python3 -c 'from corpustools import pdfconverter; print(pdfconverter.convert2intermediate.__doc__)'
+
+This should print "Convert a pdf document to Giella xml format."
+etc. If it tells you some module is missing, try installing it with
+=yum=.
+
+Then, still as user =apy=:
 
 : svn co --depth immediates https://victorio.uit.no/langtech/trunk/tools/CorpusTools/corpustools /home/apy/apertium-apy/corpustools
 : svn up --set-depth infinity /home/apy/apertium-apy/corpustools/{xslt,xml,dtd}
