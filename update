@@ -33,9 +33,9 @@ main () {
     sleep 1
     sudo -u apy ./build-html-pages
 
-    mkdir -p /opt/gc/html/ck
-    ( cd ./divvun-webdemo/    && cp -r -- lib index.html ./*.css locales            /opt/gc/html/    )
-    ( cd ./ckeditor-divvungc/ && cp -r -- lib index.html ./*.css locales ck-plugins /opt/gc/html/ck/ )
+    mkdir -p /opt/divvun/gc/ck
+    ( cd ./divvun-webdemo/    && cp -r -- lib index.html ./*.css locales            /opt/divvun/gc/    )
+    ( cd ./ckeditor-divvungc/ && cp -r -- lib index.html ./*.css locales ck-plugins /opt/divvun/gc/ck/ )
 
     if ! find etc/ usr/ -type f -print0 | xargs -r0I{} diff -q '{}' '/{}'; then
         echo "Configuration files changed – you should run $D/install-and-enable-services"
