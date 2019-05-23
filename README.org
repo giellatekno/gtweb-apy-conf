@@ -10,7 +10,7 @@ This repository contains the configuration for the MT interfaces at
 
 The translation daemon/server is running under the user "apy" on the
 server gtweb (gtweb.uit.no), and the html pages also reside under the
-home directory of that user (hosted by the regular Apache server). The
+home directory of that user (hosted by the regular nginx server). The
 whole configuration is in this git repo, hosted at
 [[https://github.com/unhammer/gtweb-apy-conf#readme][https://github.com/unhammer/gtweb-apy-conf]]
 
@@ -28,14 +28,12 @@ There are some submodules:
 - the grammar checker CK-editor web interface [[https://github.com/divvun/ckeditor-divvungc][ckeditor-divvungc]]
 
 The apertium-apy daemon runs as a systemd service, and there's an
-Apache rewrite rule that makes gtweb.uit.no:2737 available under
-gtweb.uit.no/apy. Apache is serving plain http, but is running behind
-nginx (see [[./etc/nginx/sites-enabled/jorgal_apache_proxy.conf]] and
-[[./etc/nginx/sites-enabled/gtweb_apache_proxy.conf]]) which serves SSL
-signed by Lets Encrypt / certbot. All requests to apertium-apy from
-the static html pages go to https://gtweb.uit.no/apy, although we
-still allow accessing the pages through plain http since https makes
-the website translation break on loading external resources (see
+nginx config that makes gtweb.uit.no:2737 available under
+gtweb.uit.no/apy. Nginx should serve SSL signed by Lets Encrypt /
+certbot. All requests to apertium-apy from the static html pages go to
+https://gtweb.uit.no/apy, although we still allow accessing the pages
+through plain http since https makes the website translation break on
+loading external resources (see
 https://github.com/unhammer/gtweb-apy-conf/issues/2).
 
 The following sections define how to do common or uncommon tasks like
@@ -96,6 +94,10 @@ Then, as a sudo-user on gtweb, do:
 * In case everything needs reinstalling
 
 In case e.g. gtweb dies and you need to reinstall everything:
+
+Tell SELinux that nginx can proxy to port 2737:
+
+: sudo semanage port -a -t http_port_t -p tcp 2737
 
 Install some dependencies from CentOS/EPEL:
 
@@ -204,8 +206,8 @@ Language pairs are those that are installed with =yum install=
 modes files), but individual html configurations can specify a subset
 of pairs to run (see [[https://github.com/unhammer/gtweb-apy-conf#installing-new-language-pairs][Installing new language pairs]]).
 
-We expect a standard Apache httpd running; see configs in
-=etc/httpd/conf.d/=.
+We expect a standard nginx httpd running; see configs in
+=etc/nginx/default.d/=.
 
 The file =etc/systemd/system/apy.service= says how to run the
 apertium-apy MT daemon, which is started on restart of the gtweb
