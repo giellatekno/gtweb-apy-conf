@@ -51,4 +51,4 @@ git checkout -- .
 set +x
 
 echo
-echo 'Up-to-date! Now try http://gtweb.uit.no/jorgal and translate something'
+echo 'Up-to-date! Now "rsync -a /home/apy/apertium-html-tools/ /opt/apy/", then try http://gtweb.uit.no/jorgal and translate something'

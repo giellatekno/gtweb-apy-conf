@@ -27,6 +27,7 @@ main () {
     sudo -u apy git submodule update --init --recursive
 
     sudo -u apy ./build-apy-server
+    rsync -avh --delete /home/apy/apertium-html-tools/ /opt/apy/
 
     systemctl restart apy
     sleep 1
