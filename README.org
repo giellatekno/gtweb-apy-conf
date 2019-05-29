@@ -95,9 +95,11 @@ Then, as a sudo-user on gtweb, do:
 
 In case e.g. gtweb dies and you need to reinstall everything:
 
-Tell SELinux that nginx can proxy to port 2737:
+Tell SELinux that nginx can proxy to ports 2737 (apy) and 3000
+(spellcheck):
 
 : sudo semanage port -a -t http_port_t -p tcp 2737
+: sudo semanage port -a -t http_port_t -p tcp 3000
 
 Install some dependencies from CentOS/EPEL:
 
