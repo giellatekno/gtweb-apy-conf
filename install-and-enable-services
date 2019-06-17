@@ -28,4 +28,5 @@ firewall-cmd --permanent --add-service=apy
 firewall-cmd --permanent --add-service=https
 firewall-cmd --reload
 
-certbot --expand --agree-tos -m unhammer+apertium@mm.st --nginx -n certonly -d gtweb.uit.no -d jorgal.uit.no
+certbot --expand --agree-tos -m unhammer+apertium@mm.st --nginx -n certonly -d gtweb.uit.no
+certbot --expand --agree-tos -m unhammer+apertium@mm.st --nginx -n certonly -d jorgal.uit.no
