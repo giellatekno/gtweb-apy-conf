@@ -32,6 +32,7 @@ main () {
     systemctl restart apy
     sleep 1
     sudo -u apy ./build-html-pages
+    rsync -avh --delete /home/apy/apertium-html-tools/ /opt/apy/
 
     mkdir -p /opt/divvun/gc/ck
     ( cd ./divvun-webdemo/    && cp -r -- lib index.html ./*.css locales            /opt/divvun/gc/    )
