@@ -132,12 +132,9 @@ tracking this repo:
 : git remote add origin https://github.com/unhammer/gtweb-apy-conf.git
 : git branch --set-upstream-to=origin/master master
 : git pull
-: git checkout centos-gtweb-01
+: git checkout master
 : git submodule init
 : git submodule update --recursive
-: svn co https://gtsvn.uit.no/langtech/trunk GTHOME # grab a coffee or six
-# Use the compiled generator that comes with the yum package giella-sme:
-: ln -s /usr/share/giella/sme/generator-gt-norm.hfstol /home/apy/GTHOME/langs/sme/tools/grammarcheckers/
 
 Still as user =apy=, compile =libdivvun= manually since CentOS doesn't
 have =pugixml-devel= in non-extra repos:
@@ -152,16 +149,6 @@ have =pugixml-devel= in non-extra repos:
 : make -j5 install
 : exit
 
-Unfortunately giella-sme doesn't yet include the blanktagger and
-grammar checker-specific spelling lexicon (and gtweb doesn't have
-enough memory to compile giella-sme), so from a different machine do:
-: scp $GTHOME/langs/sme/tools/grammarcheckers/analyser-gt-whitespace.hfst        apy@gtweb:GTHOME/langs/sme/tools/grammarcheckers/
-: scp $GTHOME/langs/sme/tools/grammarcheckers/acceptor.default.hfst              apy@gtweb:GTHOME/langs/sme/tools/grammarcheckers/
-: scp $GTHOME/langs/sme/tools/grammarcheckers/errmodel.default.hfst              apy@gtweb:GTHOME/langs/sme/tools/grammarcheckers/
-(Note: At some point in the future, the grammarchecker generator will
-also differ from what's installed by giella-sme, in which case we'll
-either have to scp it or include it in a package somehow.)
-
 Then log in as a user with sudo-rights, and install configuration files:
 : sudo /home/apy/install-and-enable-services
 
@@ -172,14 +159,18 @@ restarts of gtweb.
 Then update and build apertium-apy and the apertium-html-tools pages:
 : sudo /home/apy/update
 
-** PDF translation support
-This uses CorpusTools if available. We need to ensure it's possible to
-run =/usr/bin/pdftohtml= and to do =from corpustools import
-pdfconverter= from the apy directory, and currently this is done with:
+** TODO PDF translation support
+(Currently gtweb is using an old svn checkout in
+=~apy/apertium-apy/corpustools=. This section needs updating to use
+Tino's package, but apparently that's only available for newer
+operating systems.)
 
-: sudo yum install https://harbottle.gitlab.io/epypel/7/x86_64/epypel-release-7-2.el7.harbottle.x86_64.rpm
-: # If the above fails, search https://harbottle.gitlab.io/epypel/7/x86_64/ for newest epypel-release-*.rpm url
-: sudo yum install poppler-utils python36-six python36-lxml
+
+apertium-apy uses CorpusTools if available. We need to ensure it's
+possible to run =/usr/bin/pdftohtml= and to do =from corpustools
+import pdfconverter= from the apy directory. To install CorpusTools:
+
+: sudo yum install python3-corpustools
 
 Check that you have all dependencies by logging in as user =apy= and
 
@@ -187,13 +178,7 @@ Check that you have all dependencies by logging in as user =apy= and
 : python3 -c 'from corpustools import pdfconverter; print(pdfconverter.convert2intermediate.__doc__)'
 
 This should print "Convert a pdf document to Giella xml format."
-etc. If it tells you some module is missing, try installing it with
-=yum=.
-
-Then, still as user =apy=:
-
-: svn co --depth immediates https://victorio.uit.no/langtech/trunk/tools/CorpusTools/corpustools /home/apy/apertium-apy/corpustools
-: svn up --set-depth infinity /home/apy/apertium-apy/corpustools/{xslt,xml,dtd}
+etc.
 
 =apertium-apy= will detect if corpustools and pdftohtml are available.
 

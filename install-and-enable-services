@@ -19,8 +19,8 @@ find usr/           -type f -exec install -Dm644 {} /{} \;
 find usr/local/bin/ -type f -exec install -Dm755 {} /{} \;
 
 systemctl daemon-reload
-systemctl enable apy.service restart-apy.timer certbot.timer svn-up-apy.timer
-systemctl start  apy.service restart-apy.timer certbot.timer svn-up-apy.timer
+systemctl enable apy.service restart-apy.timer certbot.timer
+systemctl start  apy.service restart-apy.timer certbot.timer
 # CentOS uses yum-cron.timer run by cron, instead of dnf-automatic.timer
 
 restorecon /etc/firewalld/services/apy.xml
