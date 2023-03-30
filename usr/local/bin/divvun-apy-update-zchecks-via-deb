@@ -1,0 +1,23 @@
+#!/bin/bash
+
+set -e -u -o pipefail
+
+tmp=$(mktemp -d -t zchecks.XXXXXXXXXXX)
+trap 'rm -rf "${tmp}"' EXIT
+
+pushd "${tmp}"
+
+for lang in sme est fin fao sma smj; do
+    echo "$lang"
+    idx=$(curl -Ss https://apertium.projectjj.com/apt/nightly/pool/main/g/giella-"${lang}"/)
+    basename=$(grep -o 'href="giella-[^"]*-speller[^"]*deb"' -m1  <<<"${idx}" | sed 's,href=",,;s,",,g')
+    wget https://apertium.projectjj.com/apt/nightly/pool/main/g/giella-"${lang}"/"${basename}"
+    ar x "${basename}"
+    tar xf data.tar.xz
+done
+
+find /usr/share/voikko/4 -type f -name '*.zcheck' -print0 \
+    | xargs -0 -I{} /usr/bin/mv ./'{}' /usr/share/voikko/4/
+
+popd
+./divvun-apy-extract-all-zcheck
