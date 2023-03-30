@@ -66,6 +66,9 @@ sudo-rights and do:
 : sudo yum install apertium-from-to
 : sudo /home/apy/update
 
+** To see what pairs and language modules are available
+
+   https://build.opensuse.org/project/show/home:TinoDidriksen:nightly
 
 * Updating submodules apertium-apy / apertium-html-tools
 
