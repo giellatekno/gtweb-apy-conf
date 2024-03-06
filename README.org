@@ -12,10 +12,10 @@ The translation daemon/server is running under the user "apy" on the
 server gtweb (gtweb.uit.no), and the html pages also reside under the
 home directory of that user (hosted by the regular nginx server). The
 whole configuration is in this git repo, hosted at
-[[https://github.com/unhammer/gtweb-apy-conf#readme][https://github.com/unhammer/gtweb-apy-conf]]
+[[https://github.com/giellatekno/gtweb-apy-conf#readme][https://github.com/giellatekno/gtweb-apy-conf]]
 
 The directory =/home/apy= is a git repo, with
-https://github.com/unhammer/gtweb-apy-conf as the upstream.
+https://github.com/giellatekno/gtweb-apy-conf as the upstream.
 
 Any change to the configuration is first checked in to git and pushed
 to github, then the configuration is updated at gtweb by running the
@@ -34,7 +34,7 @@ certbot. All requests to apertium-apy from the static html pages go to
 https://gtweb.uit.no/apy, although we still allow accessing the pages
 through plain http since https makes the website translation break on
 loading external resources (see
-https://github.com/unhammer/gtweb-apy-conf/issues/2).
+https://github.com/giellatekno/gtweb-apy-conf/issues/2).
 
 The following sections define how to do common or uncommon tasks like
 installing everything from scratch, installing new language pairs,
@@ -50,7 +50,7 @@ only run certain pairs. See the files [[file:html-tools-confs/jorgal.conf::ALLOW
 the directory =html-tools-confs= – you'll need to edit the line
 =ALLOWED_PAIRS= if you want your new pair to appear on one of those
 pages. Then check in your change and push to
-[[https://github.com/unhammer/gtweb-apy-conf]] (it's also possible to just
+[[https://github.com/giellatekno/gtweb-apy-conf]] (it's also possible to just
 check in that change on =/home/apy= without pushing, if you really
 have to), e.g.
 
@@ -85,7 +85,7 @@ apertium-html-tools and apertium-apy, you can enter this repo and do
 : git push
 
 (if you don't have push-rights to
-https://github.com/unhammer/gtweb-apy-conf, you could just run the
+https://github.com/giellatekno/gtweb-apy-conf, you could just run the
 first two lines under =gtweb:/home/apy=).
 
 Then, as a sudo-user on gtweb, do:
@@ -132,7 +132,7 @@ tracking this repo:
 
 : cd /home/apy
 : git init
-: git remote add origin https://github.com/unhammer/gtweb-apy-conf.git
+: git remote add origin https://github.com/giellatekno/gtweb-apy-conf.git
 : git branch --set-upstream-to=origin/master master
 : git pull
 : git checkout master
@@ -194,7 +194,7 @@ case we need to reinstall everything.
 Language pairs are those that are installed with =yum install=
 (=ExecStart= in =etc/systemd/system/apy.service= gives the path to the
 modes files), but individual html configurations can specify a subset
-of pairs to run (see [[https://github.com/unhammer/gtweb-apy-conf#installing-new-language-pairs][Installing new language pairs]]).
+of pairs to run (see [[https://github.com/giellatekno/gtweb-apy-conf#installing-new-language-pairs][Installing new language pairs]]).
 
 We expect a standard nginx httpd running; see configs in
 =etc/nginx/default.d/=.
